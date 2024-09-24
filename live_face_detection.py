@@ -25,8 +25,6 @@ while True:
     
     # Detect faces
     grey_faces = cascades.detectMultiScale(grey, scaleFactor = 1.1, minNeighbors = 4, minSize = (40, 40))
-    if len (grey_faces) == 0:
-        raise Exception("I see no faces!!")
     
     for (x, y, w, h) in grey_faces:
         
