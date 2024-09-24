@@ -40,7 +40,7 @@ while True:
         prediction = model.predict(face_input)
         prediction_score = prediction[0][0] 
         prediction_percentage = prediction_score * 100 # pred as % to show in on label
-        threshold_value = 0.85 #threshold high bc binary classification + small dataset
+        threshold_value = 0.97 #threshold high bc binary classification + small dataset
     
         if prediction_score > threshold_value: 
             label = f'Idraq: {prediction_percentage:.2f}%'
