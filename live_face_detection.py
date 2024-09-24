@@ -9,6 +9,9 @@ CASCADES_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\haarcascade_frontal
 model = tf.keras.models.load_model(MODEL_DIR)
 cascades = cv2.CascadeClassifier(CASCADES_DIR)
 
+if model is None:
+    raise Exception ("WHERE IS MY MODEL?!")
+
 # Initialise video capture
 webcam = cv2.VideoCapture(0) 
 
@@ -22,6 +25,8 @@ while True:
     
     # Detect faces
     grey_faces = cascades.detectMultiScale(grey, scaleFactor = 1.1, minNeighbors = 4, minSize = (40, 40))
+    if len (grey_faces) == 0:
+        raise Exception("I see no faces!!")
     
     for (x, y, w, h) in grey_faces:
         
@@ -30,7 +35,7 @@ while True:
         
         # Preprocess the face
         normalised_faces = grey_faces_cropped / 255.0
-        face_input = np.expand_dims(normalised_faces, axis=(0, -1))
+        face_input = np.expand_dims(normalised_faces, axis = (0, -1))
         
         # Make model predict me or not me
         prediction = model.predict(face_input)
