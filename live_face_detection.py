@@ -2,6 +2,7 @@ import cv2
 import tensorflow as tf
 import numpy as np
 
+#change directories accordingly!!!
 MODEL_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\trained_models\trained_models_final\model_11_4.keras'
 CASCADES_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\haarcascade_frontalface_default.xml'
 
@@ -23,16 +24,16 @@ while True:
     # Convert frame to grayscale for Haar cascade
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     
-    # Detect faces
+    # Detect faces using Haarcascades to detect face and return values x,y,w,h (of the faces) in an array.
     grey_faces = cascades.detectMultiScale(grey, scaleFactor = 1.1, minNeighbors = 4, minSize = (40, 40))
     
     for (x, y, w, h) in grey_faces:
         
-        #crop collected faces to 75,75
-        grey_faces_cropped = cv2.resize(grey[y:y+h, x:x+w], (75, 75))
+        #resize faces to (75,75) to fit in model using xywh values
+        grey_faces_resized = cv2.resize(grey[y:y+h, x:x+w], (75, 75))
         
-        # Preprocess the face
-        normalised_faces = grey_faces_cropped / 255.0
+        # normalise face and add batch dimension to process 1 image at time
+        normalised_faces = grey_faces_resized / 255.0
         face_input = np.expand_dims(normalised_faces, axis = (0, -1))
         
         # Make model predict me or not me
