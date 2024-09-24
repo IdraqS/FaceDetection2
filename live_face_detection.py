@@ -1,7 +1,6 @@
 import cv2
 import tensorflow as tf
 import numpy as np
-from collections import deque
 
 MODEL_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\trained_models\trained_models_final\model_11_4.keras'
 CASCADES_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\haarcascade_frontalface_default.xml'
