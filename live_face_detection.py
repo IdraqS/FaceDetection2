@@ -39,10 +39,10 @@ while True:
         threshold_value = 0.85 #threshold high bc binary classification + small dataset
     
         if prediction_score > threshold_value: 
-            label = f'Your Face: {prediction_percentage:.2f}%'
+            label = f'Idraq: {prediction_percentage:.2f}%'
             color = (0, 255, 0)  # Green if me
         else:
-            label = f'Not Your Face: {100 - prediction_percentage:.2f}'
+            label = f'Not Idraq: {100 - prediction_percentage:.2f}'
             color = (0, 0, 255)  # Red if not me!!
         
         # Draw rectangle around face and label
