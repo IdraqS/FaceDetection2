@@ -2,7 +2,6 @@ import cv2
 import tensorflow as tf
 import numpy as np
 
-#change directories accordingly!!!
 MODEL_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\trained_models\trained_models_final\model_11_4.keras'
 CASCADES_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\haarcascade_frontalface_default.xml'
 
@@ -40,7 +39,7 @@ while True:
         prediction = model.predict(face_input)
         prediction_score = prediction[0][0] 
         prediction_percentage = prediction_score * 100 # pred as % to show in on label
-        threshold_value = 0.97 #threshold high bc binary classification + small dataset
+        threshold_value = 0.85 #threshold high bc binary classification + small dataset
     
         if prediction_score > threshold_value: 
             label = f'Idraq: {prediction_percentage:.2f}%'
