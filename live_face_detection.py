@@ -2,7 +2,7 @@ import cv2
 import tensorflow as tf
 import numpy as np
 
-MODEL_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\trained_models\trained_models_final\model_11_4.keras'
+MODEL_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\trained_models\trained_models_final\model_1_4.keras'
 CASCADES_DIR = r'C:\Users\Idraq\Desktop\Project\Python Files\haarcascade_frontalface_default.xml'
 
 #load model and haar cascades classifier
@@ -15,6 +15,9 @@ if model is None:
 # Initialise video capture
 webcam = cv2.VideoCapture(0) 
 
+# initialise list to enter predictions for average pred
+latest_predictions = []
+
 while True:
     ret, frame = webcam.read()
     if not ret:
@@ -24,7 +27,7 @@ while True:
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     
     # Detect faces using Haarcascades to detect face and return values x,y,w,h (of the faces) in an array.
-    grey_faces = cascades.detectMultiScale(grey, scaleFactor = 1.1, minNeighbors = 4, minSize = (40, 40))
+    grey_faces = cascades.detectMultiScale(grey, scaleFactor = 1.3, minNeighbors = 9, minSize = (40, 40))    
     
     for (x, y, w, h) in grey_faces:
         
@@ -38,10 +41,16 @@ while True:
         # Make model predict me or not me
         prediction = model.predict(face_input)
         prediction_score = prediction[0][0] 
-        prediction_percentage = prediction_score * 100 # pred as % to show in on label
-        threshold_value = 0.85 #threshold high bc binary classification + small dataset
+        latest_predictions.append(prediction_score) #append latest predictions
+
+        if len(latest_predictions) > 5 : #change this number to how many frames you want it to average over
+            latest_predictions.pop(0)
+
+        averaged_predictions = np.mean(latest_predictions)
+        prediction_percentage = averaged_predictions * 100 # pred as % to show in on label
+        threshold_value = 0.8 #threshold high bc binary classification + small dataset
     
-        if prediction_score > threshold_value: 
+        if averaged_predictions > threshold_value: 
             label = f'Idraq: {prediction_percentage:.2f}%'
             color = (0, 255, 0)  # Green if me
         else:
